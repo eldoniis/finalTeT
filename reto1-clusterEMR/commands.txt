@@ -1,0 +1,22 @@
+https://thecodinginterface.com/blog/create-aws-emr-with-aws-cli/
+
+aws s3 mb s3://emr-bucket-donovan
+
+aws s3api put-object --bucket emr-bucket-donovan --key logs/
+aws s3api put-object --bucket emr-bucket-donovan --key inputs/
+aws s3api put-object --bucket emr-bucket-donovan --key outputs/
+aws s3api put-object --bucket emr-bucket-donovan --key scripts/
+
+aws ec2 create-security-group --group-name ssh-my-ip \
+    --description "For SSHing from my IP" --vpc-id vpc-0ecd9aef75a7f7cba
+
+aws ec2 authorize-security-group-ingress --group-id sg-0f47bb000fcde9de3 \
+    --protocol tcp --port 22 --cidr 35.166.219.219/32c
+
+aws emr create-cluster --name donovan-cluster9 --applications Name=Hadoop Name=Hive Name=Spark Name=Hue  \
+  --release-label emr-5.33.0 --use-default-roles \
+  --instance-count 3 --instance-type m4.large \
+  --ebs-root-volume-size 12 \
+  --log-uri s3://tci-emr-demo/logs \
+  --ec2-attributes KeyName=llaveMaestra,AdditionalMasterSecurityGroups=sg-0f47bb000fcde9de3,SubnetId=subnet-098fa85fac8de9d16 \
+  --no-auto-terminate
