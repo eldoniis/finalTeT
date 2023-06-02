@@ -90,3 +90,36 @@ aws emr describe-cluster --cluster-id j-3M495CZO2I4GZ | jq -r ".Cluster.MasterPu
 6. Y ahora nos podemos conectar por ssh como normalmente se hace:
 
 ![](https://raw.githubusercontent.com/eldoniis/finalTeT/main/reto1-clusterEMR/img/create-cluster-7.png)
+
+## Parte 2
+---
+
+1. Despues de clonar el repositorio he instalar las dependencias necesarias:
+
+```
+sudo yum install git python3-pip && \
+sudo pip3 install mrjob
+```
+
+2. Ejecutamos la version serial-secuencial:
+
+```
+./wordcount-local.py /datasets/gutenberg-small/*.txt > salida-serial.txt
+```
+
+![](https://raw.githubusercontent.com/eldoniis/finalTeT/main/reto1-clusterEMR/img/ejecucion-wordcount-local.png)
+
+3. Con el paradigma map/reduce en local con mrjob:
+
+```
+python wordcount-mr.py ./datasets/gutenberg-small/*.txt
+```
+
+![](https://raw.githubusercontent.com/eldoniis/finalTeT/main/reto1-clusterEMR/img/ejecucion-wordcount-m-local-1.png)
+
+4. Con datos en hdsf:
+
+* Obtenemos la siguiente salida:
+![](https://raw.githubusercontent.com/eldoniis/finalTeT/main/reto1-clusterEMR/img/ejecucion-wordcount-m-local-12341.png)
+![](https://raw.githubusercontent.com/eldoniis/finalTeT/main/reto1-clusterEMR/img/ejecucion-wordcount-m-local-ultimo.png)
+
